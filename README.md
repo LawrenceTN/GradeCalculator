@@ -11,9 +11,7 @@ A grade calculating program that prompts the user for information about the cour
   
 TO-DO LIST:
 
-  ~~1. Access each course in the List~~
-  
-  ~~2. Input grades for each assignment type~~
-  
-  3. Calculate final overall percentage
-  4. Assign a letter grade to that percetnage
+  ~~1. Access each course in the List~~ <br />
+  ~~2. Input grades for each assignment type~~ <br />
+    3. Calculate final overall percentage <br />
+    4. Assign a letter grade to that percetnage
