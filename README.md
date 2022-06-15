@@ -10,6 +10,7 @@ A grade calculating program that prompts the user for information about the cour
   2. Created formula for final overall percentage for each course (WIP)
   
 TO-DO LIST:
+
   ~~1. Access each course in the List~~
   
   ~~2. Input grades for each assignment type~~
