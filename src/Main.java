@@ -81,7 +81,7 @@ public class Main {
             }
         }
         currCourse.setHomework_perc(hwPerc);
-        currPercent -= currCourse.getQuizzes_perc();
+        currPercent -= currCourse.getHomework_perc();
         return currPercent;
     }
 
@@ -104,7 +104,7 @@ public class Main {
             }
         }
         currCourse.setLabs_perc(labPerc);
-        currPercent -= currCourse.getQuizzes_perc();
+        currPercent -= currCourse.getLabs_perc();
         return currPercent;
     }
 
@@ -116,6 +116,7 @@ public class Main {
 
         int number_of_assignments, number_of_courses = 0;
         boolean isPercentFinished = false;
+        boolean isPercentEntered = false;
         List<Course> courses = new ArrayList<>();
 
         do {
@@ -169,11 +170,36 @@ public class Main {
             Ex:
             MATH 150 : 40%, 30%, 15%, 15%
             _____________________________________________________
-            Test - 78.6% --> (78.6 / 100) * Weighted % =
+            Assignment - Entered grade --> (Entered grade / 100) * Weighted %
+            Test - Enter 78.6% --> (78.6 / 100) * 40% =
             Quiz - 85.3% --> (85.3 / 100) * Weighted % = ...
             Homework - 93.3% --> (93.3 / 100) * Weighted % = ...
             Lab - 88.9% --> (88.9 / 100) * Weighted % = ...
             _____________________________________________________
         */
+
+        int currentCourse = 0;
+        do{
+            double score = 0;
+            System.out.println("Enter your test grade percentage for " + courses.get(currentCourse).getName());
+            courses.get(currentCourse).homework_score = input.nextDouble();
+            score += courses.get(currentCourse).calculateTest();
+            System.out.println("Enter your quiz grade percentage for " + courses.get(currentCourse).getName());
+            courses.get(currentCourse).quiz_score = input.nextDouble();
+            score += courses.get(currentCourse).calculateQuiz();
+            System.out.println("Enter your homework grade percentage for " + courses.get(currentCourse).getName());
+            courses.get(currentCourse).homework_score = input.nextDouble();
+            score += courses.get(currentCourse).calculateHW();
+            System.out.println("Enter your lab grade percentage for " + courses.get(currentCourse).getName());
+            courses.get(currentCourse).labs_score = input.nextDouble();
+            score += courses.get(currentCourse).calculateLab();
+            courses.get(currentCourse).setGrade(score);
+            courses.get(currentCourse).getGrade();
+
+            currentCourse++;
+            if(currentCourse == number_of_courses){
+                isPercentEntered = true;
+            }
+        } while(!isPercentEntered);
     }
 }
