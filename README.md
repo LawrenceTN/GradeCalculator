@@ -9,9 +9,11 @@ A grade calculating program that prompts the user for information about the cour
   1. Asked for user's percentage in each type of assignment per course.
   2. Created formula for final overall percentage for each course (WIP)
   
+**6/16/2022:**
+  Finished. Please let me know how I can improve the logic/any features of this project.
 **TO-DO LIST:**
 
   ~~1. Access each course in the List~~ <br />
   ~~2. Input grades for each assignment type~~ <br />
-    3. Calculate final overall percentage <br />
-    4. Assign a letter grade to that percetnage
+  ~~3. Calculate final overall percentage~~ <br />
+  ~~4. Assign a letter grade to that percentage~~
