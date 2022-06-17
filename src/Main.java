@@ -5,9 +5,22 @@ https://stackoverflow.com/questions/40181706/while-loop-repeats-twice-after-user
 https://stackoverflow.com/questions/51231169/how-to-i-ensure-an-exception-is-thrown-if-user-input-is-not-an-integer-and-the
 
 A grade calculating program that prompts the user for information about the courses they are taking for the purpose of obtaining their grades.
-*/
+
+
+            Ex:
+            MATH 150 : 40%, 30%, 15%, 15%
+            _____________________________________________________
+            Assignment - Entered grade --> (Entered grade / 100) * Weighted %
+            Test - Enter 78.6% --> (78.6 / 100) * (40% / 100) * 100=
+            Quiz - 85.3% --> (85.3 / 100) * Weighted % = ...
+            Homework - 93.3% --> (93.3 / 100) * Weighted % = ...
+            Lab - 88.9% --> (88.9 / 100) * Weighted % = ...
+            _____________________________________________________
+            */
+
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.List;
 
@@ -108,6 +121,7 @@ public class Main {
         return currPercent;
     }
 
+
     public static void main(String[] args){
         System.out.println("Welcome! Tired of your professor not weighing grades correctly on blackboard?");
         System.out.println("Enter your grades here as well as the weight of each type of assignment and we'll do what your professor is too lazy to do!");
@@ -129,7 +143,7 @@ public class Main {
         } while(number_of_courses == 0);
 
 
-            System.out.println("Please enter your courses and their details below: ");
+        System.out.println("Please enter your courses and their details below: ");
 
             for (int i = 0; i < number_of_courses; i++) {
                 int percent = 100;
@@ -148,9 +162,10 @@ public class Main {
 
                 newCourse.displayPerc();
 
-                    System.out.println("Is this correct? Enter 'Y' to confirm...");
-                    {
+                System.out.println("Is this correct? Enter 'Y' to confirm...");
+
                         choice = input.next().charAt(0);
+
                         if (choice == 'Y') {
                             input.nextLine();
                             courses.add(newCourse);
@@ -162,42 +177,73 @@ public class Main {
                             isPercentFinished = false;
                             percent = 100;
                         }
-                    }
+
                 } while(!isPercentFinished);
             }
 
-            /* Now access each course using the List and input the grade you have for each type to calculate
-            Ex:
-            MATH 150 : 40%, 30%, 15%, 15%
-            _____________________________________________________
-            Assignment - Entered grade --> (Entered grade / 100) * Weighted %
-            Test - Enter 78.6% --> (78.6 / 100) * 40% =
-            Quiz - 85.3% --> (85.3 / 100) * Weighted % = ...
-            Homework - 93.3% --> (93.3 / 100) * Weighted % = ...
-            Lab - 88.9% --> (88.9 / 100) * Weighted % = ...
-            _____________________________________________________
-        */
 
         int currentCourse = 0;
-        do{
+        do {
             double score = 0;
-            System.out.println("Enter your test grade percentage for " + courses.get(currentCourse).getName());
-            courses.get(currentCourse).homework_score = input.nextDouble();
-            score += courses.get(currentCourse).calculateTest();
-            System.out.println("Enter your quiz grade percentage for " + courses.get(currentCourse).getName());
-            courses.get(currentCourse).quiz_score = input.nextDouble();
-            score += courses.get(currentCourse).calculateQuiz();
-            System.out.println("Enter your homework grade percentage for " + courses.get(currentCourse).getName());
-            courses.get(currentCourse).homework_score = input.nextDouble();
-            score += courses.get(currentCourse).calculateHW();
-            System.out.println("Enter your lab grade percentage for " + courses.get(currentCourse).getName());
-            courses.get(currentCourse).labs_score = input.nextDouble();
-            score += courses.get(currentCourse).calculateLab();
+            boolean avgTestGradeFinished = false;
+            boolean avgQuizGradeFinished = false;
+            boolean avgHWGradeFinished = false;
+            boolean avgLabGradeFinished = false;
+
+            do {
+                System.out.println("Enter your average test grade percentage for " + courses.get(currentCourse).getName() + ":");
+                try {
+                    // courses.get(currentCourse).setTest_score(input.nextDouble());
+                    courses.get(currentCourse).setTest_score(Double.parseDouble(input.nextLine()));
+                    score += courses.get(currentCourse).calculateTest();
+                    avgTestGradeFinished = true;
+                } catch (NumberFormatException ex) {
+                    System.out.println("This is not a valid number input");
+                }
+            } while ( avgTestGradeFinished != true);
+
+            do {
+                System.out.println("Enter your quiz grade percentage for " + courses.get(currentCourse).getName() + ":");
+                try {
+                    courses.get(currentCourse).setQuiz_score(Double.parseDouble(input.nextLine()));
+                    score += courses.get(currentCourse).calculateQuiz();
+                    avgQuizGradeFinished = true;
+                } catch (NumberFormatException ex) {
+                    System.out.println("This is not a valid number input");
+                }
+            } while( avgQuizGradeFinished != true);
+
+            do {
+                System.out.println("Enter your homework grade percentage for " + courses.get(currentCourse).getName() + ":");
+                try {
+                    courses.get(currentCourse).setHomework_score(Double.parseDouble(input.nextLine()));
+                    score += courses.get(currentCourse).calculateHW();
+                    avgHWGradeFinished = true;
+                } catch (NumberFormatException ex) {
+                    System.out.println("This is not a valid number input");
+                }
+            } while ( avgHWGradeFinished != true);
+
+            do {
+                System.out.println("Enter your lab grade percentage for " + courses.get(currentCourse).getName() + ":");
+                try {
+                    courses.get(currentCourse).setLabs_score(Double.parseDouble(input.nextLine()));
+                    score += courses.get(currentCourse).calculateLab();
+                    avgLabGradeFinished = true;
+                } catch (NumberFormatException ex) {
+                    System.out.println("This is not a valid number input");
+                }
+            } while( avgLabGradeFinished != true);
+
+
+            score = (double) Math.round(score * 100) / 100; // Round it to 2 decimal places
             courses.get(currentCourse).setGrade(score);
+
             courses.get(currentCourse).getGrade();
 
             currentCourse++;
-            if(currentCourse == number_of_courses){
+
+            if (currentCourse == number_of_courses) {
                 isPercentEntered = true;
             }
         } while(!isPercentEntered);
